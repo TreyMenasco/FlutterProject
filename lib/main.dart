@@ -107,7 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text('Trey has pushed the button this many times:'),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: TextStyle(
+    fontSize: 124.0, // Adjust this number to make it bigger
+    fontWeight: FontWeight.bold, // Optional: makes it bold too
+  ),
             ),
           ],
         ),
