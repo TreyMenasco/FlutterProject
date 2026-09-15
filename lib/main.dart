@@ -67,6 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _decrementCounter() {
+    setState(() => _counter--);
+  }
+
+  void _resetCounter() {
+    setState(() => _counter = 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -107,18 +115,35 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text('Trey has pushed the button this many times:'),
             Text(
               '$_counter',
-              style: TextStyle(
-    fontSize: 124.0, // Adjust this number to make it bigger
-    fontWeight: FontWeight.bold, // Optional: makes it bold too
-  ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'decrement',
+            onPressed: _decrementCounter,
+            tooltip: 'Decrement',
+            child: const Icon(Icons.remove),
+          ),
+          const SizedBox(width: 12),
+          FloatingActionButton(
+            heroTag: 'reset',
+            onPressed: _resetCounter,
+            tooltip: 'Reset to zero',
+            child: const Icon(Icons.restart_alt),
+          ),
+          const SizedBox(width: 12),
+          FloatingActionButton(
+            heroTag: 'increment',
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
