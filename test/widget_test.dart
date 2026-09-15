@@ -27,4 +27,17 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+
+  testWidgets('Decrementing three times shows -3', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.text('0'), findsOneWidget);
+
+    for (var i = 0; i < 3; i++) {
+      await tester.tap(find.byIcon(Icons.remove));
+      await tester.pump();
+    }
+
+    expect(find.text('-3'), findsOneWidget);
+  });
 }
