@@ -48,4 +48,29 @@ void main() {
 
     expect(displayText(tester), 'Error');
   });
+  testWidgets('multiplies a decimal value', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.byKey(const Key('button_2')));
+    await tester.tap(find.byKey(const Key('button_.')));
+    await tester.tap(find.byKey(const Key('button_5')));
+    await tester.tap(find.byKey(const Key('button_×')));
+    await tester.tap(find.byKey(const Key('button_4')));
+    await tester.tap(find.byKey(const Key('button_=')));
+    await tester.pump();
+
+    expect(displayText(tester), '10');
+  });
+
+  testWidgets('supports backspace and changing the sign', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.byKey(const Key('button_4')));
+    await tester.tap(find.byKey(const Key('button_2')));
+    await tester.tap(find.byKey(const Key('button_⌫')));
+    await tester.tap(find.byKey(const Key('button_±')));
+    await tester.pump();
+
+    expect(displayText(tester), '-4');
+  });
 }
