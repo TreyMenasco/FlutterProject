@@ -1,3 +1,4 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+  "dart.flutterSdkPath": "C:\\Users\\mecha\\Desktop\\flutter",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

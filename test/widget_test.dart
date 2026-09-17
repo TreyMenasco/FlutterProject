@@ -1,43 +1,51 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutterproject/main.dart';
 
+String displayText(WidgetTester tester) {
+  return tester.widget<Text>(find.byKey(const Key('calculatorDisplay'))).data!;
+}
+
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('adds two numbers using calculator buttons', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.byKey(const Key('button_7')));
+    await tester.tap(find.byKey(const Key('button_+')));
+    await tester.tap(find.byKey(const Key('button_5')));
+    await tester.tap(find.byKey(const Key('button_=')));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(displayText(tester), '12');
   });
 
-  testWidgets('Decrementing three times shows -3', (WidgetTester tester) async {
+  testWidgets('supports subtraction and clear', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    expect(find.text('0'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('button_9')));
+    await tester.tap(find.byKey(const Key('button_−')));
+    await tester.tap(find.byKey(const Key('button_3')));
+    await tester.tap(find.byKey(const Key('button_=')));
+    await tester.pump();
 
-    for (var i = 0; i < 3; i++) {
-      await tester.tap(find.byIcon(Icons.remove));
-      await tester.pump();
-    }
+    expect(displayText(tester), '6');
 
-    expect(find.text('-3'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('button_C')));
+    await tester.pump();
+
+    expect(displayText(tester), '0');
+  });
+
+  testWidgets('shows an error when dividing by zero', (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.byKey(const Key('button_8')));
+    await tester.tap(find.byKey(const Key('button_÷')));
+    await tester.tap(find.byKey(const Key('button_0')));
+    await tester.tap(find.byKey(const Key('button_=')));
+    await tester.pump();
+
+    expect(displayText(tester), 'Error');
   });
 }
